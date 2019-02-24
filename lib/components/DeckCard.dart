@@ -16,11 +16,6 @@ class DeckCard extends StatelessWidget {
     return FutureBuilder(
         future: recordRepo.ready,
         builder: (BuildContext context, snapshot) {
-          if (snapshot.data == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
           final records =
               _deck.cards.map((card) => recordRepo.getRecordById(card.id));
 
@@ -35,7 +30,7 @@ class DeckCard extends StatelessWidget {
               recallRates.where((recallRates) => recallRates <= 0.334);
 
           final double meanRecallRate =
-              recallRates.fold(0, (a, b) => a + b) / recallRates.length;
+              recallRates.fold(0, (a, b) => a + b) / (recallRates.length == 0 ? 1e-10 : recallRates.length);
 
           String recallIndicatorText =
               (meanRecallRate * 100).truncate().toString();

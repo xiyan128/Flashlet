@@ -19,11 +19,6 @@ class _DecksListState extends State<DecksList> {
     return FutureBuilder(
         future: deckRepo.ready,
         builder: (BuildContext context, snapshot) {
-          if (snapshot.data == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
           decks = deckRepo.getDecks();
 
           return decks.isEmpty

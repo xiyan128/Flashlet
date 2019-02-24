@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
+    debugShowCheckedModeBanner: false,
     theme: new ThemeData(
       // Define the default Brightness and Colors
       brightness: Brightness.dark,

@@ -54,6 +54,7 @@ class _StudyPageState extends State<StatefulWidget> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Study (${currentIndex + 1}/${deck.cards.length})"),
+          centerTitle: false,
         ),
         floatingActionButton: currentProficiency != 0
             ? FloatingActionButton(
@@ -79,9 +80,6 @@ class _StudyPageState extends State<StatefulWidget> {
         body: FutureBuilder(
             future: recordRepo.ready,
             builder: (BuildContext context, snapshot) {
-              if (snapshot.data == null) {
-                return CircularProgressIndicator();
-              }
               return Container(
                 padding: EdgeInsets.all(8),
                 child: FlashCardItem(data: deck.cards[currentIndex]),

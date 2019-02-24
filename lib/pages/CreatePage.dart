@@ -44,6 +44,7 @@ class _CreatePageState extends State<CreatePage> {
   Widget build(BuildContext buildContext) => Scaffold(
       appBar: AppBar(
         title: Text(barTitle),
+        centerTitle: false,
 //        leading: Icon(Icons.close),
       ),
       floatingActionButton: FloatingActionButton(
@@ -61,9 +62,6 @@ class _CreatePageState extends State<CreatePage> {
       body: FutureBuilder(
           future: deckRepo.ready,
           builder: (BuildContext context, snapshot) {
-            if (snapshot.data == null) {
-              return CircularProgressIndicator();
-            }
             return FutureBuilder(
                 future: deckRepo.ready,
                 builder: (BuildContext context, snapshot) {
@@ -75,7 +73,7 @@ class _CreatePageState extends State<CreatePage> {
                       padding: EdgeInsets.all(16),
                       child: Form(
                           key: _formKey,
-                          child: Column(children: <Widget>[
+                          child: ListView(children: <Widget>[
                             Row(
                               children: <Widget>[
                                 Text(
@@ -186,51 +184,75 @@ class _CreatePageState extends State<CreatePage> {
                               ]),
                             ),
                             Divider(),
-                            Flexible(
-                                child: deck.cards.isEmpty
-                                    ? Text(
-                                        "No Card Yet",
-                                        style: TextStyle(),
-                                      )
-                                    : ListView.builder(
-                                        padding: EdgeInsets.all(0),
-                                        itemBuilder: (context, index) =>
-                                            Dismissible(
-                                              key: Key(
-                                                  deck.cards[index].toString()),
-                                              child: ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.all(0),
-                                                title: Text(
-                                                    deck.cards[index].front),
-                                                subtitle: Text(
-                                                    deck.cards[index].back),
+                            deck.cards.isEmpty
+                                ? Text(
+                                    "No Card Yet",
+                                    style: TextStyle(),
+                                  )
+                                : Column(
+                                    children: deck.cards
+                                        .map(
+                                          (card) => Dismissible(
+                                                key: Key(card.id),
+                                                child: ListTile(
+                                                  contentPadding:
+                                                      EdgeInsets.all(0),
+                                                  title: Text(card.front),
+                                                  subtitle: Text(card.back),
+                                                ),
+                                                direction:
+                                                    DismissDirection.startToEnd,
+                                                onDismissed: (direction) {
+                                                  // Remove the item from our data source.
+                                                  setState(() {
+                                                      deck.cards.remove(card);
+                                                  });
+
+                                                  recordRepo.deleteAllRecordsByID(card.id);
+                                                  // Then show a snackbar!
+                                                },
                                               ),
-                                              direction:
-                                                  DismissDirection.startToEnd,
-                                              onDismissed: (direction) {
-                                                // Remove the item from our data source.
-                                                var dismissedCard;
-                                                setState(() {
-                                                  dismissedCard = deck.cards
-                                                      .removeAt(index);
-                                                });
-                                                // Then show a snackbar!
-                                                Scaffold.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      "A card has been dismissed"),
-                                                  action: SnackBarAction(
-                                                      label: "UNDO",
-                                                      onPressed: () => setState(
-                                                          () => deck.cards.insert(
-                                                              index,
-                                                              dismissedCard))),
-                                                ));
-                                              },
-                                            ),
-                                        itemCount: deck.cards.length,
-                                      ))
+                                        )
+                                        .toList(),
+                                  )
+//                                : ListView.builder(
+//                                    padding: EdgeInsets.all(0),
+//                                    itemBuilder: (context, index) =>
+//                                        Dismissible(
+//                                          key:
+//                                              Key(deck.cards[index].toString()),
+//                                          child: ListTile(
+//                                            contentPadding: EdgeInsets.all(0),
+//                                            title:
+//                                                Text(deck.cards[index].front),
+//                                            subtitle:
+//                                                Text(deck.cards[index].back),
+//                                          ),
+//                                          direction:
+//                                              DismissDirection.startToEnd,
+//                                          onDismissed: (direction) {
+//                                            // Remove the item from our data source.
+//                                            var dismissedCard;
+//                                            setState(() {
+//                                              dismissedCard =
+//                                                  deck.cards.removeAt(index);
+//                                            });
+//                                            // Then show a snackbar!
+//                                            Scaffold.of(context)
+//                                                .showSnackBar(SnackBar(
+//                                              content: Text(
+//                                                  "A card has been dismissed"),
+//                                              action: SnackBarAction(
+//                                                  label: "UNDO",
+//                                                  onPressed: () => setState(
+//                                                      () => deck.cards.insert(
+//                                                          index,
+//                                                          dismissedCard))),
+//                                            ));
+//                                          },
+//                                        ),
+//                                    itemCount: deck.cards.length,
+//                                  )
                           ])));
                 });
           }));

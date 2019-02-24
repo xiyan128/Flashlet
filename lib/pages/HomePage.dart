@@ -6,7 +6,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) =>
       new Scaffold(
           appBar: AppBar(
-            title: Text("Flashlet"),
+            title: Text("Home"),
+            centerTitle: false,
           ),
           body: DecksList(),
           floatingActionButtonLocation: FloatingActionButtonLocation

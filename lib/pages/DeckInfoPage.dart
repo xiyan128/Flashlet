@@ -62,6 +62,7 @@ class _DeckInfoPageState extends State<DeckInfoPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Deck Info"),
+          centerTitle: false,
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.edit),
@@ -81,9 +82,6 @@ class _DeckInfoPageState extends State<DeckInfoPage> {
         body: FutureBuilder(
             future: deckRepo.ready,
             builder: (BuildContext context, snapshot) {
-              if (snapshot.data == null) {
-                return CircularProgressIndicator();
-              }
 
               _deck = deckRepo.getDecksById(id).first;
 
