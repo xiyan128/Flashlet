@@ -11,6 +11,11 @@ class DeckCard extends StatelessWidget {
   final bool hasDescription;
   final StudyRecordRepository recordRepo = StudyRecordRepository();
 
+  Deck sortDeckByCardsByRecallRates(Deck deckToBeSorted) {
+    deckToBeSorted.cards.sort((a,b) => Retention.getCurrentRecallRate(recordRepo.getRecordById(a.id)).compareTo(Retention.getCurrentRecallRate(recordRepo.getRecordById(a.id))));
+    return deckToBeSorted;
+  } 
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -28,7 +33,6 @@ class DeckCard extends StatelessWidget {
               (recallRates) => recallRates <= 0.664 && recallRates >= 0.335);
           final badCards =
               recallRates.where((recallRates) => recallRates <= 0.334);
-
           final double meanRecallRate =
               recallRates.fold(0, (a, b) => a + b) / (recallRates.length == 0 ? 1e-10 : recallRates.length);
 
@@ -145,7 +149,7 @@ class DeckCard extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              StudyPage(_deck)));
+                                              StudyPage(deck: sortDeckByCardsByRecallRates(_deck))));
                                 },
                               ),
                             ],

@@ -1,22 +1,21 @@
-import 'package:flashlet/components/MarqueeWidget.dart';
-import 'package:flashlet/models/Card.dart' as FlashCard;
+import 'package:flashlet/models/Card.dart' as FCard;
 import 'package:flutter/material.dart';
 
-class FlashCardItem extends StatefulWidget {
-  final FlashCard.Card data;
+class FlashCard extends StatefulWidget {
+  final FCard.Card data;
   final double fontSize;
 
-  const FlashCardItem({
+  const FlashCard({
     @required this.data,
     this.fontSize: 24,
     Key key,
   }) : super(key: key);
 
   @override
-  State<FlashCardItem> createState() => _FlashCardItemState();
+  State<FlashCard> createState() => _FlashCardState();
 }
 
-class _FlashCardItemState extends State<FlashCardItem> {
+class _FlashCardState extends State<FlashCard> {
   bool _turnFront = true;
 
   @override
@@ -32,7 +31,8 @@ class _FlashCardItemState extends State<FlashCardItem> {
         child: Container(
           color: _turnFront ? Theme.of(context).primaryColor : Colors.blue[800],
           child: Center(
-            child: MarqueeWidget(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(8),
                 child: Text(
               _turnFront ? widget.data.front : widget.data.back,
               textAlign: TextAlign.center,

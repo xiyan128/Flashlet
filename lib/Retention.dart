@@ -32,13 +32,6 @@ class Retention {
 
     return exp(-(difficulty * lagTime) / numRepetitions);
   }
+
+  
 }
-//
-//main() {
-//  final repo = StudyRecordRepository();
-//  repo.ready.then((ready) {
-//    var record1 = repo.getRecordById("233333333");
-//    print(record1);
-//    print(Retention.getCurrentRecallRate(record1));
-//  });
-//}

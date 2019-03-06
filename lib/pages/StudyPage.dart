@@ -1,22 +1,20 @@
-import 'package:flashlet/components/FlashCardItem.dart';
+import 'package:flashlet/components/FlashCard.dart';
 import 'package:flashlet/models/Deck.dart';
 import 'package:flashlet/models/StudyRecord.dart';
 import 'package:flashlet/repositories/StudyRecordRepository.dart';
 import 'package:flutter/material.dart';
 
 class StudyPage extends StatefulWidget {
-  StudyPage(this.deck);
+  StudyPage({@required this.deck, Key key}):super(key: key);
 
   final Deck deck;
 
   @override
-  _StudyPageState createState() => _StudyPageState(deck);
+  _StudyPageState createState() => _StudyPageState();
 }
 
-class _StudyPageState extends State<StatefulWidget> {
-  _StudyPageState(this.deck);
+class _StudyPageState extends State<StudyPage> {
 
-  final Deck deck;
   final StudyRecordRepository recordRepo = StudyRecordRepository();
 
   int currentIndex = 0;
@@ -45,7 +43,7 @@ class _StudyPageState extends State<StatefulWidget> {
   }
 
   saveCurrentProficiency() {
-    recordRepo.setRecord(deck.cards[currentIndex].id,
+    recordRepo.setRecord(widget.deck.cards[currentIndex].id,
         StudyRecord(datetime: DateTime.now(), proficiency: currentProficiency));
   }
 
@@ -53,14 +51,14 @@ class _StudyPageState extends State<StatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Study (${currentIndex + 1}/${deck.cards.length})"),
+          title: Text("Study (${currentIndex + 1}/${widget.deck.cards.length})"),
           centerTitle: false,
         ),
         floatingActionButton: currentProficiency != 0
             ? FloatingActionButton(
                 onPressed: () {
                   saveCurrentProficiency();
-                  if (currentIndex == deck.cards.length - 1) {
+                  if (currentIndex == widget.deck.cards.length - 1) {
                     Navigator.pop(context);
                     return;
                   }
@@ -70,7 +68,7 @@ class _StudyPageState extends State<StatefulWidget> {
                   });
                 },
                 child: Icon(
-                  currentIndex == deck.cards.length - 1
+                  currentIndex == widget.deck.cards.length - 1
                       ? Icons.done_all
                       : Icons.skip_next,
                 ),
@@ -82,7 +80,7 @@ class _StudyPageState extends State<StatefulWidget> {
             builder: (BuildContext context, snapshot) {
               return Container(
                 padding: EdgeInsets.all(8),
-                child: FlashCardItem(data: deck.cards[currentIndex]),
+                child: FlashCard(data: widget.deck.cards[currentIndex]),
               );
             }),
         bottomNavigationBar: BottomAppBar(

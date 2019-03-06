@@ -13,7 +13,7 @@ class DeckInfoPage extends StatefulWidget {
 
   @override
   _DeckInfoPageState createState() {
-    return _DeckInfoPageState(id);
+    return _DeckInfoPageState();
   }
 }
 
@@ -21,10 +21,9 @@ class _DeckInfoPageState extends State<DeckInfoPage> {
   final DeckRepository deckRepo = DeckRepository();
   final StudyRecordRepository recordRepo = StudyRecordRepository();
 
-  String id;
   Deck _deck;
 
-  _DeckInfoPageState(this.id);
+  _DeckInfoPageState();
 
   Future<void> _confirmDeletion() async {
     return showDialog<void>(
@@ -83,7 +82,7 @@ class _DeckInfoPageState extends State<DeckInfoPage> {
             future: deckRepo.ready,
             builder: (BuildContext context, snapshot) {
 
-              _deck = deckRepo.getDecksById(id).first;
+              _deck = deckRepo.getDecksById(this.widget.id).first;
 
               return FutureBuilder(
                   future: deckRepo.ready,
