@@ -214,45 +214,7 @@ class _CreatePageState extends State<CreatePage> {
                                               ),
                                         )
                                         .toList(),
-                                  )
-//                                : ListView.builder(
-//                                    padding: EdgeInsets.all(0),
-//                                    itemBuilder: (context, index) =>
-//                                        Dismissible(
-//                                          key:
-//                                              Key(deck.cards[index].toString()),
-//                                          child: ListTile(
-//                                            contentPadding: EdgeInsets.all(0),
-//                                            title:
-//                                                Text(deck.cards[index].front),
-//                                            subtitle:
-//                                                Text(deck.cards[index].back),
-//                                          ),
-//                                          direction:
-//                                              DismissDirection.startToEnd,
-//                                          onDismissed: (direction) {
-//                                            // Remove the item from our data source.
-//                                            var dismissedCard;
-//                                            setState(() {
-//                                              dismissedCard =
-//                                                  deck.cards.removeAt(index);
-//                                            });
-//                                            // Then show a snackbar!
-//                                            Scaffold.of(context)
-//                                                .showSnackBar(SnackBar(
-//                                              content: Text(
-//                                                  "A card has been dismissed"),
-//                                              action: SnackBarAction(
-//                                                  label: "UNDO",
-//                                                  onPressed: () => setState(
-//                                                      () => deck.cards.insert(
-//                                                          index,
-//                                                          dismissedCard))),
-//                                            ));
-//                                          },
-//                                        ),
-//                                    itemCount: deck.cards.length,
-//                                  )
+                                  )    //    )
                           ])));
                 });
           }));
